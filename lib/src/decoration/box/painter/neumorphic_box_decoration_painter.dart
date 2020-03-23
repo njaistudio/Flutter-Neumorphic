@@ -120,7 +120,7 @@ class NeumorphicBoxDecorationPainter extends BoxPainter {
                 ? this.gradientLightSource
                 : this.gradientLightSource.invert(),
           );
-      } else {
+      } else if(shape.isRoundRect || shape.isStadium) {
         layerRect = Rect.fromLTRB(
           offset.dx - this.width,
           offset.dy - this.height,
@@ -226,7 +226,7 @@ class NeumorphicBoxDecorationPainter extends BoxPainter {
           canvas.drawCircle(centerOffset, radius, gradientPaint);
         }
       }
-    } else {
+    } else if(shape.isRoundRect || shape.isStadium){
       if (style.depth.abs() >= 0.1) {
         //avoid binking on android if depth near 0
         canvas.saveLayer(layerRect, whiteShadowPaint);
@@ -247,6 +247,53 @@ class NeumorphicBoxDecorationPainter extends BoxPainter {
             style.shape == NeumorphicShape.convex) {
           canvas.drawRRect(this.buttonRRect, gradientPaint);
         }
+      }
+    } else if(shape.isCustomShape) {
+
+      this.maskFilter = MaskFilter.blur(BlurStyle.normal, this.depth);
+      this.whiteShadowPaint..maskFilter = this.maskFilter;
+      this.blackShadowPaint..maskFilter = this.maskFilter;
+
+      if (style.depth.abs() >= 0.1) {
+        //avoid binking on android if depth near 0
+        canvas.saveLayer(layerRect, whiteShadowPaint);
+        canvas.translate(offset.dx + depthOffset.dx, offset.dy + depthOffset.dy);
+        canvas.drawPath(shape.customShapePathProvider.getPath(configuration.size), whiteShadowPaint);
+        canvas.restore();
+
+        canvas.saveLayer(layerRect, whiteShadowMaskPaint);
+        canvas.translate(offset.dx + depthOffset.dx, offset.dy + depthOffset.dy);
+        canvas.drawPath(shape.customShapePathProvider.getPath(configuration.size), whiteShadowMaskPaint);
+        canvas.restore();
+
+        canvas.saveLayer(layerRect, blackShadowPaint);
+        canvas.translate(offset.dx - depthOffset.dx, offset.dy - depthOffset.dy);
+        canvas.drawPath(shape.customShapePathProvider.getPath(configuration.size), blackShadowPaint);
+
+        canvas.saveLayer(layerRect, blackShadowMaskPaint);
+        canvas.translate(offset.dx - depthOffset.dx, offset.dy - depthOffset.dy);
+        canvas.drawPath(shape.customShapePathProvider.getPath(configuration.size), blackShadowMaskPaint);
+        canvas.restore();
+        canvas.restore();
+      }
+
+      if (this.drawGradient) {
+        if (style.shape == NeumorphicShape.concave ||
+            style.shape == NeumorphicShape.convex) {
+
+          canvas.save();
+          canvas.translate(offset.dx, offset.dy);
+          canvas.drawPath(shape.customShapePathProvider.getPath(configuration.size), gradientPaint);
+
+          canvas.restore();
+          //canvas.drawRRect(this.buttonRRect, gradientPaint);
+        }
+      } else {
+        canvas.save();
+        canvas.translate(offset.dx, offset.dy);
+
+        canvas.drawPath(shape.customShapePathProvider.getPath(configuration.size), backgroundPaint);
+        canvas.restore();
       }
     }
   }

@@ -340,6 +340,15 @@ class __PageState extends State<_Page> {
           color: boxShape.isStadium ? buttonActiveColor : buttonInnactiveColor,
           child: Text("Stadium"),
         ),
+        RaisedButton(
+          onPressed: () {
+            setState(() {
+              boxShape = NeumorphicBoxShape.path(MyNeumorphicTrianglePathProvider());
+            });
+          },
+          color: boxShape.isCustomShape ? buttonActiveColor : buttonInnactiveColor,
+          child: Text("Custom"),
+        ),
       ],
     );
   }
