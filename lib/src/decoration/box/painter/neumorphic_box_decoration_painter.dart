@@ -34,6 +34,7 @@ class NeumorphicBoxDecorationPainter extends BoxPainter {
 
   Rect layerRect;
   Rect rectRect;
+  Path customPath;
 
   RRect buttonRRect;
   RRect whiteShadowRRect;
@@ -135,6 +136,8 @@ class NeumorphicBoxDecorationPainter extends BoxPainter {
                 ? this.gradientLightSource
                 : this.gradientLightSource.invert(),
           );
+      } else if(shape.isCustomShape){
+        this.customPath = shape.customShapePathProvider.getPath(configuration.size);
       }
     }
 
@@ -250,30 +253,26 @@ class NeumorphicBoxDecorationPainter extends BoxPainter {
       }
     } else if(shape.isCustomShape) {
 
-      this.maskFilter = MaskFilter.blur(BlurStyle.normal, this.depth);
-      this.whiteShadowPaint..maskFilter = this.maskFilter;
-      this.blackShadowPaint..maskFilter = this.maskFilter;
-
       if (style.depth.abs() >= 0.1) {
         //avoid binking on android if depth near 0
         canvas.saveLayer(layerRect, whiteShadowPaint);
         canvas.translate(offset.dx + depthOffset.dx, offset.dy + depthOffset.dy);
-        canvas.drawPath(shape.customShapePathProvider.getPath(configuration.size), whiteShadowPaint);
+        canvas.drawPath(customPath, whiteShadowPaint);
         canvas.restore();
 
         canvas.saveLayer(layerRect, whiteShadowMaskPaint);
         canvas.translate(offset.dx + depthOffset.dx, offset.dy + depthOffset.dy);
-        canvas.drawPath(shape.customShapePathProvider.getPath(configuration.size), whiteShadowMaskPaint);
+        canvas.drawPath(customPath, whiteShadowMaskPaint);
         canvas.restore();
 
         canvas.saveLayer(layerRect, blackShadowPaint);
         canvas.translate(offset.dx - depthOffset.dx, offset.dy - depthOffset.dy);
-        canvas.drawPath(shape.customShapePathProvider.getPath(configuration.size), blackShadowPaint);
+        canvas.drawPath(customPath, blackShadowPaint);
+        canvas.restore();
 
         canvas.saveLayer(layerRect, blackShadowMaskPaint);
         canvas.translate(offset.dx - depthOffset.dx, offset.dy - depthOffset.dy);
-        canvas.drawPath(shape.customShapePathProvider.getPath(configuration.size), blackShadowMaskPaint);
-        canvas.restore();
+        canvas.drawPath(customPath, blackShadowMaskPaint);
         canvas.restore();
       }
 
@@ -283,16 +282,15 @@ class NeumorphicBoxDecorationPainter extends BoxPainter {
 
           canvas.save();
           canvas.translate(offset.dx, offset.dy);
-          canvas.drawPath(shape.customShapePathProvider.getPath(configuration.size), gradientPaint);
+          canvas.drawPath(customPath, gradientPaint);
 
           canvas.restore();
-          //canvas.drawRRect(this.buttonRRect, gradientPaint);
         }
       } else {
         canvas.save();
         canvas.translate(offset.dx, offset.dy);
 
-        canvas.drawPath(shape.customShapePathProvider.getPath(configuration.size), backgroundPaint);
+        canvas.drawPath(customPath, backgroundPaint);
         canvas.restore();
       }
     }
