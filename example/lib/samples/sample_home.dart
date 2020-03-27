@@ -4,6 +4,7 @@ import 'package:example/samples/calculator_sample.dart';
 import 'package:example/samples/credit_card_sample.dart';
 import 'package:example/samples/form_sample.dart';
 import 'package:example/samples/testla_sample.dart';
+import 'package:example/samples/widgets_sample_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
@@ -86,6 +87,13 @@ class SamplesHome extends StatelessWidget {
                       onClick: () {
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                           return WidgetsSample();
+                        }));
+                      }),
+                  _buildButton(
+                      text: "Widgets2",
+                      onClick: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                          return WidgetsSample2();
                         }));
                       }),
                 ],
