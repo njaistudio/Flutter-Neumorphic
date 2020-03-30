@@ -259,6 +259,7 @@ class _NeumorphicProgressIndeterminateState extends State<NeumorphicProgressInde
   @override
   Widget build(BuildContext context) {
     final NeumorphicThemeData theme = NeumorphicTheme.currentTheme(context);
+    var baseColor = widget.style.base ?? Color.fromARGB(0, 0, 0, 0);
 
     return FractionallySizedBox(
       widthFactor: 1,
@@ -268,6 +269,7 @@ class _NeumorphicProgressIndeterminateState extends State<NeumorphicProgressInde
             boxShape: NeumorphicBoxShape.roundRect(borderRadius: widget.style.borderRadius),
             padding: EdgeInsets.zero,
             style: NeumorphicStyle(
+			  color: baseColor,
               depth: widget.style.depth,
               shape: NeumorphicShape.flat,
             ),
