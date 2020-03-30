@@ -20,7 +20,7 @@ class NeumorphicColors {
   static const darkDefaultTextColor = material.Colors.white70;
 
   static const Color _decorationMaxWhiteColor =
-      material.Colors.white; //for intensity = 1
+      material.Colors.transparent; //for intensity = 1
   static const Color _decorationMaxDarkColor =
       material.Colors.black54; //for intensity = 1
 

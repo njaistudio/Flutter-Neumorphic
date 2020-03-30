@@ -19,6 +19,7 @@ class _WidgetPageState extends State<ProgressWidgetPage> {
       theme: NeumorphicThemeData(
         lightSource: LightSource.topLeft,
         accentColor: NeumorphicColors.accent,
+        baseColor: Colors.green,
         depth: 4,
         intensity: 0.5,
       ),
@@ -95,6 +96,7 @@ Expanded(
           Expanded(
             child: NeumorphicProgress(
               percent: percent,
+              style: ProgressStyle(base: Colors.white),
             ),
           ),
           SizedBox(width: 12),

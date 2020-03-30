@@ -19,6 +19,7 @@ class ProgressStyle {
   final BorderRadius borderRadius;
   final Color accent;
   final Color variant;
+  final Color base;
 
   final AlignmentGeometry progressGradientStart;
   final AlignmentGeometry progressGradientEnd;
@@ -30,6 +31,7 @@ class ProgressStyle {
     this.progressGradientStart,
     this.progressGradientEnd,
     this.variant,
+    this.base,
   });
 
   @override
@@ -137,6 +139,7 @@ class _NeumorphicProgressState extends State<NeumorphicProgress> with TickerProv
     //print("widget.style.depth: ${widget.style.depth}");
 
     final NeumorphicThemeData theme = NeumorphicTheme.currentTheme(context);
+    var baseColor = widget.style.base ?? Color.fromARGB(0, 0, 0, 0);
     return SizedBox(
       height: widget.height,
       child: FractionallySizedBox(
@@ -146,6 +149,7 @@ class _NeumorphicProgressState extends State<NeumorphicProgress> with TickerProv
           boxShape: NeumorphicBoxShape.roundRect(borderRadius: widget.style.borderRadius),
           padding: EdgeInsets.zero,
           style: NeumorphicStyle(
+            color: baseColor,
             depth: widget.style.depth,
             shape: NeumorphicShape.flat,
           ),
