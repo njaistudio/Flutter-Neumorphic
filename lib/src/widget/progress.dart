@@ -20,6 +20,7 @@ class ProgressStyle {
   final Color accent;
   final Color variant;
   final Color base;
+  final EdgeInsets padding;
 
   final AlignmentGeometry progressGradientStart;
   final AlignmentGeometry progressGradientEnd;
@@ -32,6 +33,7 @@ class ProgressStyle {
     this.progressGradientEnd,
     this.variant,
     this.base,
+    this.padding,
   });
 
   @override
@@ -140,6 +142,7 @@ class _NeumorphicProgressState extends State<NeumorphicProgress> with TickerProv
 
     final NeumorphicThemeData theme = NeumorphicTheme.currentTheme(context);
     var baseColor = widget.style.base ?? Color.fromARGB(0, 0, 0, 0);
+    var padding = widget.style.padding ?? EdgeInsets.zero;
     return SizedBox(
       height: widget.height,
       child: FractionallySizedBox(
@@ -153,17 +156,20 @@ class _NeumorphicProgressState extends State<NeumorphicProgress> with TickerProv
             depth: widget.style.depth,
             shape: NeumorphicShape.flat,
           ),
-          child: FractionallySizedBox(
-            alignment: Alignment.centerLeft,
-            widthFactor: this.percent,
-            child: _GradientProgress(
-              borderRadius: widget.style.borderRadius,
-              begin: widget.style.progressGradientStart ?? Alignment.centerLeft,
-              end: widget.style.progressGradientEnd ?? Alignment.centerRight,
-              colors: [
-                widget.style.variant ?? theme.variantColor,
-                widget.style.accent ?? theme.accentColor,
-              ],
+          child: Padding(
+            padding: padding,
+            child:  FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor: this.percent,
+              child: _GradientProgress(
+                borderRadius: widget.style.borderRadius,
+                begin: widget.style.progressGradientStart ?? Alignment.centerLeft,
+                end: widget.style.progressGradientEnd ?? Alignment.centerRight,
+                colors: [
+                  widget.style.variant ?? theme.variantColor,
+                  widget.style.accent ?? theme.accentColor,
+                ],
+              ),
             ),
           ),
         ),
@@ -260,6 +266,7 @@ class _NeumorphicProgressIndeterminateState extends State<NeumorphicProgressInde
   Widget build(BuildContext context) {
     final NeumorphicThemeData theme = NeumorphicTheme.currentTheme(context);
     var baseColor = widget.style.base ?? Color.fromARGB(0, 0, 0, 0);
+    var padding = widget.style.padding ?? EdgeInsets.zero;
 
     return FractionallySizedBox(
       widthFactor: 1,
@@ -276,7 +283,7 @@ class _NeumorphicProgressIndeterminateState extends State<NeumorphicProgressInde
             child:
             LayoutBuilder(builder: (context, constraints) {
               return Padding(
-                padding: EdgeInsets.only(left: constraints.maxWidth * percent),
+                padding: EdgeInsets.only(left: constraints.maxWidth * percent + padding.left, top: padding.top, right: padding.right, bottom: padding.bottom),
                 child: FractionallySizedBox(
                   heightFactor: 1,
                   alignment: Alignment.centerLeft,
