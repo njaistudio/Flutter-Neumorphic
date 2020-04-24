@@ -2,26 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-class NeumorphicPlayground extends StatefulWidget {
+class NeumorphicPlayground extends BaseScreen {
   @override
-  _NeumorphicPlaygroundState createState() => _NeumorphicPlaygroundState();
+  Widget getChild() {
+    return _Page();
+  }
 }
+class BaseScreen extends StatelessWidget {
 
-class _NeumorphicPlaygroundState extends State<NeumorphicPlayground> {
+  Widget getChild() {
+     return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // TODO: implement build
     return NeumorphicTheme(
       usedTheme: UsedTheme.LIGHT,
       theme: NeumorphicThemeData(
         baseColor: Color(0xffDDDDDD),
+        accentColor: Color(0xffFF00FF),
         lightSource: LightSource.topLeft,
         depth: 6,
         intensity: 0.5,
       ),
-      child: _Page(),
+      child: getChild(),
     );
   }
 }
+
 
 class _Page extends StatefulWidget {
   @override
@@ -63,10 +72,11 @@ class __PageState extends State<_Page> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                Text("Test", style: TextStyle(color: NeumorphicTheme.of(context).current.accentColor),),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
                   child: RaisedButton(child: Text("back"), onPressed: (){
-                    Navigator.pop(context);
+                    NeumorphicTheme.of(context).usedTheme = NeumorphicTheme.isUsingDark(context) ? UsedTheme.LIGHT : UsedTheme.DARK;
                   },),
                 ),
                 shapeWidget(),

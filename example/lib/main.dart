@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
+
+
+
 import 'main_home.dart';
 
 void main() => runApp(MyApp());
@@ -12,19 +15,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: NeumorphicTheme(
           usedTheme: UsedTheme.LIGHT,
           theme: NeumorphicThemeData(
             baseColor: Color(0xFFFFFFFF),
+            accentColor: Color(0xFFFF00FF),
             intensity: 0.5,
             lightSource: LightSource.topLeft,
             depth: 10,
           ),
           darkTheme: NeumorphicThemeData(
-            baseColor: Color(0xFF3E3E3E),
+            baseColor: Color(0xFF3E3EE3),
+            accentColor: Color(0xFFFFFF00),
             intensity: 0.5,
             lightSource: LightSource.topLeft,
             depth: 6,
@@ -64,7 +66,7 @@ class MyHomePage extends StatelessWidget {
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
                   "Toggle Theme",
-                  style: TextStyle(color: _textColor(context)),
+                  style: TextStyle(color: NeumorphicTheme.accentColor(context)),
                 )),
             NeumorphicButton(
                 margin: EdgeInsets.only(top: 12),
